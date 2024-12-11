@@ -2,16 +2,45 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
-    <title>Actividad 1 Eval DWEC</title>
+    <title>MaderAvilés</title>
   </head>
   <body>
-    <div class="pedidos"></div>
-    <div class="piezas"></div>
-    <div class="pedidos"></div>
+    <header>
+        <h1>MaderAvilés</h1>
+        <nav>
+            <ul>
+                <li><a href="#pedidos">Gestión de Pedidos</a></li>
+                <li><a href="#piezas">Gestión de Piezas</a></li>
+                <li><a href="#detalles">Detalles de Pedido</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!-- Gestión de pedidos -->
+        <section id="pedidos">
+            <h2>Gestión de Pedidos</h2>
+            <button onclick="abrirGestionPedidos()">Ir a Gestión de Pedidos</button>
+        </section>
+
+        <!-- Gestión de piezas -->
+        <section id="piezas">
+            <h2>Gestión de Piezas</h2>
+            <button onclick="abrirGestionPiezas()">Ir a Gestión de Piezas</button>
+        </section>
+
+        <!-- Detalle de pedido -->
+        <section id="detalles">
+            <h2>Detalle de Pedido</h2>
+            <button onclick="abrirDetallePedido()">Consultar Detalles de un Pedido</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 MaderAvilés. Todos los derechos reservados.</p>
+    </footer>
 
 
 
