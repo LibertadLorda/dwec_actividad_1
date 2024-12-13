@@ -19,41 +19,22 @@ let color;
 let ambasCaras;
 let cortada;
 
-// Abrir Gestión de Pedidos
-function abrirGestionPedidos() {
-
-    let opcion = prompt(
-        `Gestión de Pedidos:\n` +
-        `1. Crear Pedido\n` +
-        `2. Modificar Pedido\n` +
-        `3. Eliminar Pedido\n` +
-        `4. Consultar Pedido\n`
-    );
-
-    if (opcion === null) return; // Si el usuario cancela
-
-    switch (opcion) {
-        case '1':
-            crearPedido();
-            break;
-        case '2':
-            modificarPedido();
-            break;
-        case '3':
-            eliminarPedido();
-            break;
-        case '4':
-            consultarPedido();
-            break;
-    }
+// Obtener datos de LocalStorage 
+function obtenerDatos(key) {
+    const datos = localStorage.getItem(key);
+    return datos ? JSON.parse(datos) : [];
 }
 
-// Función para validar formato de fecha
+// Guardar datos en LocalStorage
+function guardarDatos(key, datos) {
+    localStorage.setItem(key, JSON.stringify(datos));
+}
+
+// Validar formato de fecha
 function validarFecha(fecha) {
     const date = new Date(fecha);
     return /^\d{4}-\d{2}-\d{2}$/.test(fecha) && !isNaN(date) && date <= new Date();
 }
-
 
 // Crear pedido nuevo
 function crearPedido() {
@@ -84,8 +65,8 @@ function crearPedido() {
     while (true) {
         // Solicitar cliente
         cliente = prompt('Introduce el nombre del cliente:').trim();
-          // Si el usuario cancela, salimos de la función
-          if (cliente === null) {
+        // Si el usuario cancela, salimos de la función
+        if (cliente === null) {
             alert('Operación cancelada.');
             return;
         }
@@ -99,8 +80,8 @@ function crearPedido() {
     while (true) {
         // Solicitar fecha
         fecha = prompt('Introduce la fecha del pedido (YYYY-MM-DD):').trim();
-          // Si el usuario cancela, salimos de la función
-          if (fecha === null) {
+        // Si el usuario cancela, salimos de la función
+        if (fecha === null) {
             alert('Operación cancelada.');
             return;
         }
@@ -110,7 +91,6 @@ function crearPedido() {
         }
         break;
     }
-
 
     // Añadir pedido
     pedidos.push({
@@ -124,16 +104,6 @@ function crearPedido() {
     alert('Pedido creado con éxito.');
 }
 
-// Obtener datos de LocalStorage 
-function obtenerDatos(key) {
-    const datos = localStorage.getItem(key);
-    return datos ? JSON.parse(datos) : [];
-}
-
-// Guardar datos en LocalStorage
-function guardarDatos(key, datos) {
-    localStorage.setItem(key, JSON.stringify(datos));
-}
 
 // Modificar un pedido
 function modificarPedido() {
@@ -184,6 +154,7 @@ function modificarPedido() {
 function eliminarPedido() {
     const pedidos = obtenerDatos(KEY_PEDIDOS);
     const numero = parseInt(prompt('Introduce el número del pedido a eliminar:'));
+     if (numero === null) return;
     const indice = pedidos.findIndex(pedido => pedido.numero === numero);
 
     if (indice === -1) {
@@ -201,6 +172,7 @@ function eliminarPedido() {
 function consultarPedido() {
     const pedidos = obtenerDatos(KEY_PEDIDOS);
     const numero = parseInt(prompt('Introduce el número del pedido a consultar:'));
+     if (numero === null) return;
     const pedido = pedidos.find(pedido => pedido.numero === numero);
 
     if (!pedido) {
@@ -211,15 +183,37 @@ function consultarPedido() {
     alert(`Detalle del Pedido N° ${pedido.numero}:\nCliente: ${pedido.cliente}\nFecha: ${pedido.fecha}\nProcesado: ${pedido.procesado ? 'Sí' : 'No'}\nServido: ${pedido.servido ? 'Sí' : 'No'}`);
 }
 
+// Abrir Gestión de Pedidos
+function abrirGestionPedidos() {
+
+    let opcion = prompt(
+        `Gestión de Pedidos:\n` +
+        `1. Crear Pedido\n` +
+        `2. Modificar Pedido\n` +
+        `3. Eliminar Pedido\n` +
+        `4. Consultar Pedido\n`
+    );
+
+    if (opcion === null) return; // Si el usuario cancela
+
+    switch (opcion) {
+        case '1':
+            crearPedido();
+            break;
+        case '2':
+            modificarPedido();
+            break;
+        case '3':
+            eliminarPedido();
+            break;
+        case '4':
+            consultarPedido();
+            break;
+    }
+}
 
 
-
-
-
-
-
-
-// Gestión de Piezas
+// Crear Piezas
 function crearPieza(numeroPieza, numeroPedido, largo, ancho, grosor, color, ambasCaras) {
     const piezas = obtenerDatos(KEY_PIEZAS);
     const pedidos = obtenerDatos(KEY_PEDIDOS);
@@ -252,6 +246,41 @@ function crearPieza(numeroPieza, numeroPedido, largo, ancho, grosor, color, amba
     alert('Pieza creada con éxito.');
 }
 
+// Abrir Gestión de Pedidos
+function abrirGestionPiezas() {
+
+    let opcion = prompt(
+        `Gestión de Piezas:\n` +
+        `1. Dar de alta pieza\n` +
+        `2. Modificar Pieza\n` +
+        `3. Dar de baja Pieza\n` +
+        `4. Consultar Pieza\n`
+    );
+
+    if (opcion === null) return; // Si el usuario cancela
+
+    switch (opcion) {
+        case '1':
+            crearPieza();
+            break;
+        case '2':
+            modificarPieza();
+            break;
+        case '3':
+            bajaPieza();
+            break;
+        case '4':
+            consultarPieza();
+            break;
+    }
+}
+
+
+
+
+
+
+
 // Detalle de Pedido
 function abrirDetallePedido(numeroPedido) {
     const piezas = obtenerDatos(KEY_PIEZAS).filter(pieza => pieza.numeroPedido === numeroPedido);
@@ -283,15 +312,10 @@ function abrirDetallePedido(numeroPedido) {
 }
 
 
-
-function abrirGestionPiezas() {
-    console.log('Navegar a Gestión de Piezas');
-}
-
 function abrirDetallePedido() {
     const numeroPedido = parseInt(prompt('Introduce el número del pedido:'));
     if (!isNaN(numeroPedido)) {
-        obtenerDetallePedido(numeroPedido);
+        abrirDetallePedido(numeroPedido);
     } else {
         alert('Número de pedido no válido.');
     }
